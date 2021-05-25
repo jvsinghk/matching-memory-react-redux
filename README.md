@@ -1,44 +1,42 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+# Matching Memory
 
-## Available Scripts
+When introducing Redux to a React application, you transfer the responsibility of state management over to Redux. This is great because Redux is really good at state management, but this also hinders React’s optimized UI rendering. That is why react-redux was created to bind the UI rendering of React to the state management of Redux.
 
-In the project directory, you can run:
+This project explores where react-redux fits into an application by finishing off the implementation of a one-player matching game.
 
-### `npm start`
+The application consists of 5 React components:
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. App: The root component, App renders the Score and Board components.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+2. Score: Child of the App component, Score will display the number of matched cards.
 
-### `npm test`
+3. Board: Child of the App component, Board will create the card grid for gameplay.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+4. CardRow: Child of the Board component, CardRow renders a row of Card components.
 
-### `npm run build`
+5. Card: Child of the CardRow component, Card displays the card content when flipped over.
+One goal of this project will be to show that a nested component like Card can access data and dispatch actions as easily as a higher-level component like App or Score.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Most of the Redux store logic is implemented in boardSlice.js. This includes initializing the state, the reducers, and the action creators.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+The application state is an array of 12 objects with each object representing a card:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```js
+// card object
+{
+  id: uniqueID, 
+  contents: wordString, 
+  visible: visibleBoolean, 
+  matched: matchedBoolean
+}
+```
 
-### `npm run eject`
+There are 3 actions needed to run the game:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- setGame: randomize the card array and set visible and matched of all cards to false
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- flipCard: set visible of the specified card id to true
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- resetCards set visible to false on unmatched cards
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+To complete this project I will add a <Provider /> component, implement selectors, retrieve data from the store with useSelector(), and dispatch actions with the help of useDispatch().
