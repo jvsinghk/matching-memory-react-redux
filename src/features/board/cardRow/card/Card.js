@@ -49,6 +49,13 @@ export const Card = ({ id, contents }) => {
     click = tryAgainHandler;
   }
 
+  // 4th if statement
+  // implement adding no-match selector to card when two flipped
+  // cards are not matching 
+  if(visibleIDs.length >= 2 && !matchedIDs.includes(id)) {
+    cardStyle = 'no-match';
+  }
+
   return (
     <button onClick={click} className={`card ${cardStyle}`}>
       {cardText}
